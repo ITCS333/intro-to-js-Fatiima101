@@ -1,0 +1,70 @@
+name: Autograding Tests
+'on':
+- push
+- repository_dispatch
+permissions:
+  checks: write
+  actions: read
+  contents: read
+jobs:
+  run-autograding-tests:
+    runs-on: ubuntu-latest
+    if: github.actor != 'github-classroom[bot]'
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    - name: sum
+      id: sum
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: sum
+        setup-command: npm install
+        command: npm test -- -t 'sum'
+        timeout: 10
+        max-score: 1
+    - name: reverseString
+      id: reversestring
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: reverseString
+        setup-command: npm install
+        command: npm test -- -t 'npm test -- -t 'sum''
+        timeout: 10
+        max-score: 1
+    - name: findLargest
+      id: findlargest
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: findLargest
+        setup-command: npm install
+        command: npm test -- -t 'findLargest'
+        timeout: 10
+        max-score: 1
+    - name: isPalindrome
+      id: ispalindrome
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: isPalindrome
+        setup-command: npm install
+        command: npm test -- -t 'isPalindrome'
+        timeout: 10
+        max-score: 1
+    - name: filterEvenNumbers
+      id: filterevennumbers
+      uses: classroom-resources/autograding-command-grader@v1
+      with:
+        test-name: filterEvenNumbers
+        setup-command: npm install
+        command: npm test -- -t 'filterEvenNumbers'
+        timeout: 10
+        max-score: 1
+    - name: Autograding Reporter
+      uses: classroom-resources/autograding-grading-reporter@v1
+      env:
+        SUM_RESULTS: "${{steps.sum.outputs.result}}"
+        REVERSESTRING_RESULTS: "${{steps.reversestring.outputs.result}}"
+        FINDLARGEST_RESULTS: "${{steps.findlargest.outputs.result}}"
+        ISPALINDROME_RESULTS: "${{steps.ispalindrome.outputs.result}}"
+        FILTEREVENNUMBERS_RESULTS: "${{steps.filterevennumbers.outputs.result}}"
+      with:
+        runners: sum,reversestring,findlargest,ispalindrome,filterevennumbers
