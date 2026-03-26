@@ -23,7 +23,7 @@ function findLargest(numbers) {
   if(number.length === 0)
     return null
 
-  return Math.max(numbers);
+  return Math.max(...numbers);
 }
 
 /**
