@@ -20,7 +20,9 @@ function reverseString(str) {
  * @returns {number} The largest number in the array. Return null if the array is empty.
  */
 function findLargest(numbers) {
-  return Math.max(null,numbers);
+  if (!numbers || numbers.length === 0) 
+    return null;
+  return Math.max(...numbers);
 }
 
 /**
